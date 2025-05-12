@@ -1,0 +1,135 @@
+body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #eafcff;
+    }
+
+    header {
+      background-color: #000;
+      color: #ffc700;
+      padding: 20px;
+      position: relative;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+
+    header p {
+      margin: 0;
+      color: #ffd700;
+    }
+
+    .image-placeholder {
+      color: white;
+      margin-top: 10px;
+      font-size: 1.2em;
+    }
+
+    .top-icons {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .top-icons img {
+      width: 24px;
+      margin-left: 15px;
+      cursor: pointer;
+    }
+
+    .weekdays {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .day-box {
+      border: 2px solid #000;
+      border-radius: 10px;
+      padding: 10px 15px;
+      text-align: center;
+      width: 40px;
+      font-weight: bold;
+    }
+
+    .task-section {
+      margin: 0 30px 80px 30px;
+    }
+
+    .task {
+      background: #1e1e4f;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      color: white;
+      margin-bottom: 16px;
+      border-radius: 4px;
+      padding: auto;
+      display: flex;
+      align-items: center;
+    }
+
+    .color-bar {
+      width: 8px;
+      height: 100%;
+      min-height: 60px;
+      display:inline-block;
+      border-radius: 4px 0 0 4px;
+    }
+
+    .task-content {
+      flex-grow: 1;
+    }
+
+    .task-content p {
+      margin: 0;
+      font-weight: bold;
+    }
+
+    .task-fields {
+      display: flex;
+      gap: 10px;
+      margin-top: 5px;
+    }
+
+    .task-fields input {
+      background-color: #ccc;
+      border: none;
+      padding: 5px;
+      width: 60px;
+    }
+
+    .task-buttons {
+      display: flex;
+      justify-content: space-around;
+      background-color: #1e1e4f;
+      padding: 15px;
+      border-radius: 0 0 10px 10px;
+      margin-top: 20px;
+    }
+
+    .task-buttons button {
+      background-color: #ffce00;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .task-buttons .calendar-btn img {
+      width: 28px;
+      height: 28px;
+    }
+
+    .task-buttons .check-btn {
+      border-radius: 10px;
+      width: auto;
+      padding: 10px 20px;
+      font-size: 20px;
+    }
