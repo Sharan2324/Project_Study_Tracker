@@ -73,7 +73,7 @@ body {
     .color-bar {
       width: 8px;
       height: 100%;
-      min-height: 60px;
+      min-height: 70px;
       display:inline-block;
       border-radius: 4px 0 0 4px;
     }
@@ -87,10 +87,12 @@ body {
       font-weight: bold;
     }
 
-    .task-fields {
-      display: flex;
-      gap: 10px;
-      margin-top: 5px;
+    .task-fields input,
+    .task-fields select {
+      padding: 5px 1px;
+      border-radius: 5px;
+      border: none;
+      width: 100%;
     }
 
     .task-fields input {
