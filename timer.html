@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <title>Study Timer Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+    h2, h3 {
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+    textarea {
+      height: 100px;
+      resize: vertical;
+    }
+    .timer {
+      font-size: 32px;
+      text-align: center;
+      margin: 20px 0;
+    }
+    .buttons {
+      text-align: center;
+    }
+    .buttons button {
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+    }
+    .history {
+      margin-top: 30px;
+    }
+    .session {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+    .session-title {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Study Timer Tracker</h2>
+
+<div class="form-group">
+  <label for="taskName">Task Name:</label>
+  <input type="text" id="taskName" placeholder="e.g., Read Chapter 4">
+</div>
+
+<div class="form-group">
+  <label for="taskSubject">Subject:</label>
+  <input type="text" id="taskSubject" placeholder="e.g., Biology">
+</div>
+
+<div class="form-group">
+  <label for="notes">Notes:</label>
+  <textarea id="notes" placeholder="Write notes or thoughts here..."></textarea>
+</div>
+
+<div class="timer" id="timerDisplay">00:00:00</div>
+
+<div class="buttons">
+  <button id="startPauseBtn" onclick="toggleTimer()">Start</button>
+  <button id="stopBtn" onclick="stopTimer()" style="display: none;">Stop</button>
+</div>
+
+<h3>Session History</h3>
+<div class="history" id="sessionHistory"></div>
+
+<script>
+  let startTime = null;
+  let elapsedTime = 0;
+  let timerInterval = null;
+  let isRunning = false;
+  let sessionHistoryData = [];
+
+  const timerDisplay = document.getElementById("timerDisplay");
+  const startPauseBtn = document.getElementById("startPauseBtn");
+  const stopBtn = document.getElementById("stopBtn");
+  const sessionHistoryDiv = document.getElementById("sessionHistory");
+
+  function updateDisplay() {
+    const total = elapsedTime + (isRunning ? Date.now() - startTime : 0);
+    const hours = Math.floor(total / 3600000);
+    const minutes = Math.floor((total % 3600000) / 60000);
+    const seconds = Math.floor((total % 60000) / 1000);
+
+    timerDisplay.textContent =
+      `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  }
+
+  function toggleTimer() {
+    if (!isRunning) {
+      // Start or resume
+      startTime = Date.now();
+      timerInterval = setInterval(updateDisplay, 1000);
+      isRunning = true;
+      startPauseBtn.textContent = "Pause";
+      stopBtn.style.display = "inline-block";
+    } else {
+      // Pause
+      elapsedTime += Date.now() - startTime;
+      clearInterval(timerInterval);
+      isRunning = false;
+      startPauseBtn.textContent = "Start";
+    }
+  }
+
+  function pauseTimer() {
+    if (isRunning) {
+      elapsedTime += Date.now() - startTime;
+      clearInterval(timerInterval);
+      isRunning = false;
+    }
+  }
+
+  function stopTimer() {
+    pauseTimer();
+    updateDisplay();
+
+    const taskName = document.getElementById("taskName").value.trim();
+    const taskSubject = document.getElementById("taskSubject").value.trim();
+    const notes = document.getElementById("notes").value.trim();
+
+    if (!taskName || !taskSubject) {
+      alert("Please enter both Task Name and Subject before stopping the timer.");
+      return;
+    }
+
+    const totalMs = elapsedTime;
+    const totalSeconds = Math.floor(totalMs / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    sessionHistoryData.push({
+      taskName,
+      taskSubject,
+      duration: `${hours}h ${minutes}m ${seconds}s`,
+      notes,
+      timestamp: new Date().toLocaleString()
+    });
+
+    renderSessionHistory();
+
+    // Reset everything
+    elapsedTime = 0;
+    startTime = null;
+    isRunning = false;
+    timerDisplay.textContent = "00:00:00";
+
+    document.getElementById("taskName").value = "";
+    document.getElementById("taskSubject").value = "";
+    document.getElementById("notes").value = "";
+    startPauseBtn.textContent = "Start";
+    stopBtn.style.display = "none";
+  }
+
+  function renderSessionHistory() {
+    sessionHistoryDiv.innerHTML = "";
+    sessionHistoryData.slice().reverse().forEach((session) => {
+      const sessionDiv = document.createElement("div");
+      sessionDiv.className = "session";
+      sessionDiv.innerHTML = `
+        <div class="session-title">${session.taskName} (${session.taskSubject})</div>
+        <div><strong>Duration:</strong> ${session.duration}</div>
+        <div><strong>Time:</strong> ${session.timestamp}</div>
+        ${session.notes ? `<div><strong>Notes:</strong> ${session.notes}</div>` : " "}
+      `;
+      sessionHistoryDiv.appendChild(sessionDiv);
+    });
+  }
+</script>
+
+</body>
+</html>

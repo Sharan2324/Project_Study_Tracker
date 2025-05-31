@@ -4,7 +4,120 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Task Planner</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background-color: #e3e8ea;
+    }
+
+    header {
+      background-color: #000;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    .top-icons img {
+      margin-left: 15px;
+      width: 24px;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 10px;
+      gap: 10px;
+    }
+
+    .filters input[type="text"],
+    .filters select {
+      padding: 8px;
+      font-size: 1rem;
+    }
+
+    .task-section {
+      padding: 20px;
+    }
+
+    .task {
+      background-color: #95a1a6;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .task-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .task-fields label {
+      font-weight: bold;
+    }
+
+    .task-fields input,
+    .task-fields select {
+      width: 100%;
+      padding: 6px;
+      font-size: 1rem;
+    }
+
+    .add-btn-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .add-btn-wrapper input[type="button"] {
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      background-color: #000;
+      color: white;
+      border-radius: 5px;
+    }
+
+    .bottom-bar {
+      background-color: #000;
+      padding: 20px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .bottom-bar button {
+      background-color: #e3e8ea;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .bottom-bar img {
+      width: 32px;
+      height: 32px;
+    }
+
+    h3, p {
+      margin: 5px 0;
+    }
+  </style>
 </head>
 <body>
 
@@ -41,9 +154,9 @@
   </div>
 
   <div class="bottom-bar">
-    <a href="timer.html"><img src="https://img.icons8.com/ios-filled/50/E3E8EA/timer.png" alt="Timer" /></a>
-    <button onclick="addTask()"><img src="https://img.icons8.com/ios-filled/50/000000/add.png" alt="Add Task" /></button>
-    <a href="event.html"><button><img src="https://img.icons8.com/ios-filled/50/000000/calendar.png" alt="Calendar" /></button></a>
+    <button><img src="https://img.icons8.com/ios-filled/50/000000/calendar.png" alt="Calendar" /></button>
+    <button onclick="addTask()">+</button>
+    <button>&#10003;</button>
   </div>
 
   <script>

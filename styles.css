@@ -1,24 +1,49 @@
+ *{
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
 body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-color: #eafcff;
+      background-color: #E3E8EA;
     }
 
-    header {
+  header {
       background-color: #000;
-      color: #ffc700;
-      padding: 20px;
-      position: relative;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    header h1 {
+  header h1 {
       margin: 0;
-      font-size: 2em;
+      font-size: 2rem;
+    }
+
+.filters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 10px;
+      gap: 10px;
+    }
+
+.filters input[type="text"],
+.filters select {
+  padding: 8px;  
+  font-size: 1rem;
+    }
+
+    button {
+      border:#9BA8AE 1px solid;
     }
 
     header p {
       margin: 0;
-      color: #ffd700;
+      color: #E3E8EA;
     }
 
     .image-placeholder {
@@ -34,16 +59,14 @@ body {
     }
 
     .top-icons img {
-      width: 24px;
       margin-left: 15px;
-      cursor: pointer;
+      width: 24px;
     }
 
-    .weekdays {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin: 20px 0;
+
+    table{
+      margin-left: auto; 
+      margin-right: auto;
     }
 
     .day-box {
@@ -56,84 +79,114 @@ body {
     }
 
     .task-section {
-      margin: 0 30px 80px 30px;
+      padding: 20px;
     }
 
-    .task {
-      background: #1e1e4f;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      color: white;
-      margin-bottom: 16px;
-      border-radius: 4px;
-      padding: auto;
-      display: flex;
-      align-items: center;
+.task {
+      background-color: #95a1a6;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
     }
 
     .color-bar {
       width: 8px;
       height: 100%;
-      min-height: 70px;
+      min-height: 175.8px;
       display:inline-block;
       border-radius: 4px 0 0 4px;
     }
 
-    .task-content {
-      display: inline;
-      flex-grow: 1;
+    .task-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
     }
 
-    .task-content p {
-      margin: 0;
+    .task-fields label {
       font-weight: bold;
     }
 
     .task-fields input,
     .task-fields select {
-      padding: 3px 1px;
-      border-radius: 5px;
+      width: 100%;
+      padding: 6px;
+      font-size: 1rem;
     }
 
-    .task-buttons {
+    .add-btn-wrapper {
       display: flex;
-      justify-content: space-around;
-      background-color: #1e1e4f;
-      padding: 15px;
-      border-radius: 0 0 10px 10px;
+      justify-content: center;
       margin-top: 20px;
     }
 
-    .task-buttons button {
-      background-color: #ffce00;
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      font-size: 24px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .task-buttons .calendar-btn img {
-      width: 28px;
-      height: 28px;
-    }
-
-    .task-buttons .check-btn {
-      border-radius: 10px;
-      width: auto;
+    .add-btn-wrapper input[type="button"] {
       padding: 10px 20px;
-      font-size: 20px;
-    }
-    .task-controls button {
-      background-color: #ffc700;
-      border: none;
-      border-radius: 4px;
-      padding: 5px 10px;
-      margin-right: 10px;
+      font-size: 1rem;
       cursor: pointer;
-      color: #000;
-      font-weight: bold;
+      border: none;
+      background-color: #000;
+      color: white;
+      border-radius: 5px;
     }
+
+    .bottom-bar {
+      background-color: #000;
+      padding: 20px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .bottom-bar button {
+      background-color: #e3e8ea;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .bottom-bar img {
+      width: 32px;
+      height: 32px;
+    }
+
+    h3, p {
+      margin: 5px 0;
+    }
+    .day-box {
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+.day-box:hover {
+  background-color: #e0e0e0;
+}
+
+.day-box.active {
+  background-color: #007BFF;
+  color: white;
+}
+
+.searchbar{
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.searchbar:focus {
+  outline: none;
+  border-color: #000000;
+}
+.filter-container {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #E3E8EA;
+  padding: 10px;
+}

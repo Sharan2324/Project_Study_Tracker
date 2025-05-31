@@ -3,14 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" type="text/css" href="styles.css">
   <title>Interactive Calendar</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
-    .calendar { max-width: 500px; margin: auto; }
-    .header { display: flex; justify-content: space-between; align-items: center; }
-    .month-year { font-size: 20px; font-weight: bold; }
-    .days, .dates { display: grid; grid-template-columns: repeat(7, 1fr); }
-    .days div { font-weight: bold; padding: 10px 0; border-bottom: 1px solid #ccc; }
+    .calendar { 
+      max-width: 500px; 
+      margin: auto; }
+    .header { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; }
+    .month-year { 
+      font-size: 20px; 
+      font-weight: bold; }
+    .days, .dates { 
+      display: grid; 
+      grid-template-columns: repeat(7, 1fr); }
+    .days div { 
+      font-weight: bold; 
+      padding: 10px 0; 
+      border-bottom: 1px solid #ccc; }
     .date-cell {
       padding: 6px;
       min-height: 70px;
@@ -78,12 +90,20 @@
 <div id="eventModal" class="modal">
   <div class="modal-content">
     <h3 id="modalTitle">Add Event</h3>
-    <input type="hidden" id="eventDate" />
-    <input type="text" id="eventTitle" placeholder="Event Title" />
-    <select id="eventCategory">
-      <option value="normal">Normal</option>
-      <option value="important">Important</option>
+    <input type="text" id="subject" placeholder="Subject" required />
+    <input type="date" id="startDate" required />
+    <input type="date" id="deadline" required />
+    <select id="priority" required>
+      <option value="Low">Low</option>
+      <option value="Medium">Medium</option>
+      <option value="High">High</option>
     </select>
+    <select id="status" required>
+      <option value="Not Started">Not Started</option>
+      <option value="In Progress">In Progress</option>
+      <option value="Completed">Completed</option>
+    </select>
+
     <button onclick="saveEvent()">Save</button>
     <button onclick="deleteEvent()" id="deleteBtn" style="display:none; color: red;">Delete</button>
     <button onclick="closeModal()">Cancel</button>
@@ -98,6 +118,11 @@
   const eventTitleInput = document.getElementById('eventTitle');
   const eventCategoryInput = document.getElementById('eventCategory');
   const deleteBtn = document.getElementById('deleteBtn');
+  const subjectInput = document.getElementById('subject');
+  const startDateInput = document.getElementById('startDate');
+  const deadlineInput = document.getElementById('deadline');
+  const priorityInput = document.getElementById('priority');
+  const statusInput = document.getElementById('status');
   const modalTitle = document.getElementById('modalTitle');
 
   let currentDate = new Date();
@@ -134,8 +159,12 @@
       let eventHTML = '';
       for (let i = 0; i < dayEvents.length; i++) {
         const event = dayEvents[i];
-        eventHTML += `<div class="event ${event.category}" onclick="event.stopPropagation(); editEvent(${event._index})">${event.title}</div>`;
-
+        eventHTML += `
+      <div class="event ${event.category}" onclick="event.stopPropagation(); editEvent(${event._index})">
+        <strong>${event.title}</strong><br/>
+        <small>${event.subject}</small>
+      </div>
+    `;
       }
 
       cells += `
@@ -157,42 +186,60 @@
   function openAddEvent(date) {
     eventDateInput.value = date;
     eventTitleInput.value = '';
+    subjectInput.value = '';
+    startDateInput.value = date;
+    deadlineInput.value = date;
+    priorityInput.value = 'Medium';
+    statusInput.value = 'Not Started';
     eventCategoryInput.value = 'normal';
     editingEventIndex = -1;
     deleteBtn.style.display = 'none';
-    modalTitle.textContent = 'Add Event';
+    modalTitle.textContent = 'Add Task';
     modal.style.display = 'flex';
-  }
+}
+
 
   function editEvent(globalIndex) {
     const event = events[globalIndex];
     eventDateInput.value = event.date;
     eventTitleInput.value = event.title;
+    subjectInput.value = event.subject || '';
+    startDateInput.value = event.startDate || event.date;
+    deadlineInput.value = event.deadline || event.date;
+    priorityInput.value = event.priority || 'Medium';
+    statusInput.value = event.status || 'Not Started';
     eventCategoryInput.value = event.category;
     editingEventIndex = globalIndex;
     deleteBtn.style.display = 'inline-block';
-    modalTitle.textContent = 'Edit Event';
+    modalTitle.textContent = 'Edit Task';
     modal.style.display = 'flex';
-  }
+}
+
 
   function saveEvent() {
     const date = eventDateInput.value;
     const title = eventTitleInput.value.trim();
+    const subject = subjectInput.value.trim();
+    const startDate = startDateInput.value;
+    const deadline = deadlineInput.value;
+    const priority = priorityInput.value;
+    const status = statusInput.value;
     const category = eventCategoryInput.value;
 
-    if (!title) return alert("Event title is required!");
+    if (!title || !subject) return alert("Title and subject are required!");
+
+    const task = { date, title, subject, startDate, deadline, priority, status, category };
 
     if (editingEventIndex >= 0) {
-      // Edit existing
-      events[editingEventIndex] = { date, title, category };
+      events[editingEventIndex] = task;
     } else {
-      // Add new
-      events.push({ date, title, category });
+      events.push(task);
     }
 
     closeModal();
     renderCalendar(currentDate);
   }
+
 
   function deleteEvent() {
     if (editingEventIndex >= 0) {
