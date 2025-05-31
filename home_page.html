@@ -40,8 +40,7 @@
     </div>
 
   </div>
-  <script>
-    let colorList = ['green', 'orange', 'red', 'blue', 'purple'];
+   <script>
     let taskCount = 1;
 
     function addTask() {
@@ -49,21 +48,20 @@
 
       const taskDiv = document.createElement('div');
       taskDiv.className = 'task';
-
-      const color = colorList[taskCount % colorList.length];
+      taskDiv.id = 'task-form-' + taskCount;
 
       taskDiv.innerHTML = `
-        <div class="color-bar" style="background-color: ${color};"></div>
+        <div class="color-bar" style="background-color: gray;"></div>
         <div class="task-content">
           <div class="task-fields">
-            <input type="text" placeholder="Task Title" />
-            <input type="text" placeholder="Subject" />
-            <input type="date" placeholder="deadline" />
-            <select>
+            <input type="text" placeholder="Task Title" id="Title${taskCount}" required/>
+            <input type="text" placeholder="Subject" id="Subject${taskCount}" required/>
+            <input type="date" id="Date${taskCount}" />
+            <select id="Priority${taskCount}">
               <option value="important">Important</option>
               <option value="not-important">Not Important</option>
             </select>
-            <input type="button" value="ADD" />
+            <input type="button" value="ADD" onclick="add_content(${taskCount})" />
           </div>
         </div>
       `;
@@ -72,6 +70,68 @@
       taskCount++;
     }
 
+    function add_content(id) {
+      const title = document.getElementById(`Title${id}`).value;
+      const subject = document.getElementById(`Subject${id}`).value;
+      const date = document.getElementById(`Date${id}`).value;
+      const priority = document.getElementById(`Priority${id}`).value;
+
+      const color = priority === "important" ? "red" : "green";
+
+      const finalTask = document.createElement('div');
+      finalTask.className = 'task';
+      finalTask.id = 'task-display-' + id;
+      finalTask.innerHTML = `
+        <div class="color-bar" style="background-color: ${color};"></div>
+        <div class="task-content">
+            <div class="task-fields">
+                <h3>Title: ${title}</h3>
+                <p>Subject: ${subject}</p>
+                <p>Deadline: ${date} Priority: ${priority.charAt(0).toUpperCase() + priority.slice(1)}</p>
+            </div>
+            <div class="task-controls" style="display: flex; justify-content: end;">
+              <button onclick="editTask(${id})">Edit</button>
+              <button onclick="deleteTask(${id})">Delete</button>
+            </div>
+        </div>
+      `;
+
+      const oldTask = document.getElementById('task-form-' + id);
+      oldTask.replaceWith(finalTask);
+    }
+
+    function deleteTask(id) {
+      const task = document.getElementById('task-display-' + id);
+      if (task) task.remove();
+    }
+
+    function editTask(id) {
+      const task = document.getElementById('task-display-' + id);
+      const content = task.querySelectorAll("h3","p").values;
+      const priorityValue = content[4]|| 'not-important';
+
+      const editForm = document.createElement('div');
+      editForm.className = 'task';
+      editForm.id = 'task-form-' + id;
+
+      editForm.innerHTML = `
+        <div class="color-bar" style="background-color: gray;"></div>
+        <div class="task-content">
+          <div class="task-fields">
+            <input type="text" value="${content[0]}" id="Title${id}" required/>
+            <input type="text" value="${content[1]}" id="Subject${id}" required/>
+            <input type="date" value="${content[2]}" id="Date${id}" />
+            <select id="Priority${id}">
+              <option value="important" ${priorityValue === "important" ? "selected" : ""}>Important</option>
+              <option value="not-important" ${priorityValue === "not important" ? "selected" : ""}>Not Important</option>
+            </select>
+            <input type="button" value="ADD" onclick="add_content(${id})" />
+          </div>
+        </div>
+      `;
+
+      task.replaceWith(editForm);
+    }
   </script>
 </body>
 </html>
