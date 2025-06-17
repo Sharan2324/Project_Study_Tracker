@@ -1,0 +1,520 @@
+/* --- View Switcher Styles --- */
+.view-switcher {
+    text-align: center;
+    margin: 15px 0;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.view-switcher button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.view-switcher button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* --- General Calendar Header & Day Names --- */
+.calendar .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ddd;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.calendar .header button {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.calendar .header button:hover {
+    background-color: #5a6268;
+}
+
+.month-year {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background-color: #e9ecef;
+    font-weight: bold;
+    padding: 10px 0;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.days > div {
+    padding: 8px 0;
+    color: #555;
+}
+
+/* --- Month View Specifics (inherits from .calendar and .dates) --- */
+.dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px; /* Small gap between cells */
+    background-color: #ddd; /* Grid lines */
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    overflow: hidden; /* Ensures rounded corners are applied */
+}
+
+.date-cell {
+    background-color: #fff;
+    padding: 10px;
+    min-height: 100px; /* Adjust as needed */
+    text-align: right;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px; /* Space between date number and events */
+}
+
+.date-cell:hover {
+    background-color: #f0f0f0;
+}
+
+.date-cell .today {
+    background-color: #007bff;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    margin-left: auto; /* Push to the right */
+    margin-bottom: 5px; /* Space from events */
+}
+
+/* General event styling (for month view) */
+.event {
+    background-color: #e6f2ff; /* Light blue default */
+    color: #0056b3;
+    padding: 5px 8px;
+    border-radius: 4px;
+    margin-bottom: 3px;
+    font-size: 0.8em;
+    width: 100%; /* Take full width of cell */
+    box-sizing: border-box; /* Include padding/border in width */
+    text-align: left;
+    cursor: pointer;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.event:hover {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+
+/* --- Week View Styles --- */
+.week-grid {
+    display: grid;
+    grid-template-columns: 80px repeat(7, 1fr); /* Time column + 7 days */
+    border: 1px solid #ddd;
+    font-size: 12px;
+    max-height: calc(100vh - 250px); /* Adjust based on header/footer */
+    overflow-y: auto; /* Scrollable if content exceeds height */
+}
+
+.week-day-headers-with-time {
+    display: contents; /* Allows children to be placed directly in the main grid */
+}
+
+.time-column-header, .week-day-header {
+    background-color: #f0f0f0;
+    padding: 10px 5px;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    text-align: center;
+    font-weight: bold;
+}
+
+.time-column-header {
+    border-top-left-radius: 8px; /* Match calendar header */
+}
+
+.week-day-header {
+    border-top-right-radius: 8px; /* Match calendar header, only for the last one */
+}
+
+.week-day-header.today-header {
+    background-color: #e0f7fa; /* Highlight today's header */
+    color: #007bff;
+}
+
+.week-hour-row {
+    display: contents; /* Children participate in parent grid */
+}
+
+.time-label {
+    grid-column: 1; /* Always in the first column */
+    padding: 10px 5px;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px dashed #eee; /* Dashed line for hourly separation */
+    text-align: right;
+    font-weight: bold;
+    background-color: #f9f9f9;
+    position: sticky; /* Keep time labels visible when scrolling */
+    left: 0;
+    z-index: 5; /* Ensure it stays above events */
+}
+
+.week-day-cell {
+    padding: 5px;
+    border-right: 1px solid #eee;
+    border-bottom: 1px dashed #eee;
+    min-height: 50px; /* Adjust height for time slots */
+    position: relative;
+    overflow-y: hidden; /* Hide overflow events for now */
+    cursor: pointer; /* To add new event */
+}
+
+.week-day-cell:hover {
+    background-color: #f5f5f5;
+}
+
+/* Styling for events within week view */
+.event-week {
+    background-color: #a7d9ff; /* Default event color */
+    color: #333;
+    padding: 2px 5px;
+    border-radius: 3px;
+    margin-bottom: 3px;
+    font-size: 11px;
+    cursor: pointer;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.event-week:hover {
+    filter: brightness(0.95);
+}
+
+
+/* --- Day View Styles --- */
+.day-view-grid {
+    display: grid;
+    grid-template-columns: 80px 1fr; /* Time column and event column */
+    border: 1px solid #ddd;
+    font-size: 14px;
+    max-height: calc(100vh - 250px); /* Adjust height for scroll */
+    overflow-y: auto;
+}
+
+.day-view-date {
+    grid-column: 1 / -1; /* Span across both columns */
+    text-align: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ddd;
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}
+
+.day-hour-row {
+    display: contents; /* Children participate in parent grid */
+}
+
+.day-hour-label {
+    grid-column: 1;
+    padding: 10px 5px;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px dashed #eee;
+    text-align: right;
+    font-weight: bold;
+    background-color: #f9f9f9;
+    position: sticky;
+    left: 0;
+    z-index: 5;
+}
+
+.day-events-container {
+    grid-column: 2;
+    padding: 5px;
+    border-bottom: 1px dashed #eee;
+    min-height: 50px; /* Adjust height for time slots */
+    position: relative;
+    cursor: pointer; /* To add new event */
+}
+
+.day-events-container:hover {
+    background-color: #f5f5f5;
+}
+
+/* Styling for events within day view */
+.event-day {
+    background-color: #d1ecf1; /* Default event color */
+    color: #0c5460;
+    padding: 5px 8px;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    font-size: 13px;
+    cursor: pointer;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.event-day:hover {
+    filter: brightness(0.95);
+}
+
+
+/* --- Agenda View Styles --- */
+.agenda-list {
+    padding: 20px;
+    max-height: calc(100vh - 200px); /* Adjust height for scroll */
+    overflow-y: auto;
+    background-color: #fdfdfd;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.agenda-list h4 {
+    margin-top: 25px;
+    margin-bottom: 12px;
+    color: #444;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 8px;
+    font-size: 1.15em;
+    font-weight: 600;
+}
+
+.agenda-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px 18px;
+    margin-bottom: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.agenda-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+}
+
+/* --- Task Details Popover Styles --- */
+.popover {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 100; /* Sit on top, below main modal */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  animation: fadeIn 0.3s forwards; /* Smooth fade-in */
+}
+
+.popover-content {
+  background-color: #fefefe;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3);
+  width: 90%; /* Responsive width */
+  max-width: 450px; /* Max width on larger screens */
+  position: relative; /* For close button positioning */
+  animation-name: slideInTop; /* Animation for popover content */
+  animation-duration: 0.4s;
+}
+
+/* Close button for popover */
+.close-popover {
+  color: #aaa;
+  font-size: 32px;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-popover:hover,
+.close-popover:focus {
+  color: #333;
+}
+
+.popover-content h4 {
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.popover-content p {
+    margin-bottom: 10px;
+    font-size: 1.05em;
+    color: #555;
+}
+
+.popover-content p strong {
+    color: #222;
+}
+
+.popover-content button {
+    background-color: #28a745; /* Green for Edit button */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.popover-content button:hover {
+    background-color: #218838;
+}
+
+/* --- Modal Styles (ensure consistency, z-index) --- */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 200; /* Sit on top, above popover */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s forwards;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3);
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  animation-name: slideInTop;
+  animation-duration: 0.4s;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.modal-content label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="date"],
+.modal-content select {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+.modal-content button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+  background-color: #0056b3;
+}
+
+.modal-content button#deleteBtn {
+  background-color: #dc3545; /* Red for delete */
+}
+
+.modal-content button#deleteBtn:hover {
+  background-color: #c82333;
+}
+
+.modal-content button:last-child { /* Cancel button */
+  background-color: #6c757d;
+}
+
+.modal-content button:last-child:hover {
+  background-color: #5a6268;
+}
+
+/* --- Priority Colors --- */
+/* These classes will be applied to .event, .event-week, .event-day, .agenda-item */
+.important {
+    background-color: #ffe0e6; /* Light red */
+    border-left: 5px solid #e74c3c; /* Stronger red border */
+    color: #a70000;
+}
+
+.not-important {
+    background-color: #e6ffe6; /* Light green */
+    border-left: 5px solid #2ecc71; /* Stronger green border */
+    color: #007f00;
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes slideInTop {
+  from {transform: translateY(-50px); opacity: 0;}
+  to {transform: translateY(0); opacity: 1;}
+}

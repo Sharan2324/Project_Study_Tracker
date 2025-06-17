@@ -1,0 +1,78 @@
+/* auth.css */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  display: flex;
+  height: 100vh;
+  background: linear-gradient(to right, #98a5ab 70%, #d9dee0 30%);
+  justify-content: center;
+  align-items: center;
+}
+
+.login-container {
+  background-color: #000;
+  padding: 40px;
+  border-radius: 8px;
+  text-align: center;
+  color: white;
+  width: 300px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.4); /* Enhanced shadow */
+}
+
+.login-container h2 {
+  margin-bottom: 30px;
+  font-size: 24px; /* Slightly larger font */
+  font-family: 'Orbitron', sans-serif; /* Remember to import Orbitron if not a local font */
+  color: #E3E8EA; /* Lighter color for heading */
+}
+
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px; /* Slightly more padding */
+  margin: 12px 0; /* Slightly more margin */
+  border: none;
+  border-radius: 25px; /* More rounded */
+  background-color: #e5eaec;
+  color: #333;
+  font-size: 1em;
+}
+
+input[type="email"]::placeholder,
+input[type="password"]::placeholder {
+  color: #777;
+}
+
+button {
+  margin-top: 20px; /* More margin */
+  padding: 12px 35px; /* More padding */
+  border: none;
+  border-radius: 25px; /* More rounded */
+  background-color: #aab3b7;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.1em; /* Slightly larger font */
+  color: #333; /* Darker text for contrast */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #c4ccd0;
+  transform: translateY(-2px); /* Slight lift effect */
+}
+
+.message {
+  margin-top: 20px; /* More margin */
+  font-size: 15px;
+  font-weight: bold;
+  color: #ff8888; /* Error color */
+  background-color: rgba(255, 0, 0, 0.1); /* Light red background for messages */
+  padding: 8px 15px;
+  border-radius: 5px;
+}
