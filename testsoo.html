@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task Planner</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Task Planner</h1>
+    <p>Date</p>
+  </div>
+  <div class="top-icons">
+    <img src="https://img.icons8.com/ios-filled/50/E3E8EA/bell.png" alt="Notifications"/>
+    <a href="event.html"><img src="https://img.icons8.com/ios-filled/50/E3E8EA/calendar.png" alt="Calendar"></a>
+    <img src="https://img.icons8.com/ios-filled/50/E3E8EA/user.png" alt="User"/>
+  </div>
+</header>
+
+<div class="filters">
+  <input type="text" placeholder="Search Event..." id="searchInput" oninput="filterTasks()">
+  <select id="statusFilter" onchange="filterTasks()">
+    <option value="">All Statuses</option>
+    <option value="not-started">Not Started</option>
+    <option value="in-progress">In Progress</option>
+    <option value="completed">Completed</option>
+  </select>
+  <select id="priorityFilter" onchange="filterTasks()">
+    <option value="">All Priorities</option>
+    <option value="important">Important</option>
+    <option value="not-important">Not Important</option>
+  </select>
+  <button onclick="clearFilters()">Clear Filters</button>
+</div>
+
+<div class="task-section" id="task-section">
+  <!-- Task cards will appear here -->
+</div>
+
+<div class="bottom-bar">
+    <a href="protest1.html"><img src="https://img.icons8.com/ios-filled/50/E3E8EA/timer.png" alt="Timer" /></a>
+    <button onclick="addTask()"><img src="https://img.icons8.com/ios-filled/50/000000/add.png" alt="Add Task" /></button>
+    <a href="event.html"><button><img src="https://img.icons8.com/ios-filled/50/000000/calendar.png" alt="Calendar" /></button></a>
+</div>
+
+<script>
+  let taskCount = 0;
+
+  
+  window.addEventListener('DOMContentLoaded', () => {
+    const taskData = localStorage.getItem("latestTask");
+    if (taskData) {
+      const task = JSON.parse(taskData);
+      const color = task.priority === "important" ? "red" : "green";
+
+      const messageCard = document.createElement("div");
+      messageCard.className = "task";
+      messageCard.innerHTML = `
+        <div style="border-left: 8px solid ${color}; padding-left: 10px;">
+          <h3>Title: ${task.taskName}</h3>
+          <p>Subject: ${task.taskSubject}</p>
+          <p>Time Elapsed: ${task.duration}</p>
+        </div>
+      `;
+
+      document.getElementById("task-section").prepend(messageCard);
+      localStorage.removeItem("latestTask");
+    }
+  });
+
+  function addTask() {
+    const taskSection = document.getElementById('task-section');
+    const newTaskForm = createTaskForm(taskCount);
+    taskSection.prepend(newTaskForm);
+    taskCount++;
+  }
+
+  function createTaskForm(id, title = '', subject = '', start = '', deadline = '', priority = 'important', status = 'not-started') {
+    const taskDiv = document.createElement('div');
+    taskDiv.className = 'task';
+    taskDiv.id = 'task-form-' + id;
+
+    taskDiv.innerHTML = `
+      <div class="task-fields">
+        <div>
+          <label>Title:</label>
+          <input type="text" id="Title${id}" value="${title}" placeholder="Task Title" required/>
+          <label>Starting Date:</label>
+          <input type="date" id="Starting_Date${id}" value="${start}" />
+          <label>Priority:</label>
+          <select id="Priority${id}">
+            <option value="important" ${priority === 'important' ? 'selected' : ''}>Important</option>
+            <option value="not-important" ${priority === 'not-important' ? 'selected' : ''}>Not Important</option>
+          </select>
+        </div>
+        <div>
+          <label>Subject:</label>
+          <input type="text" id="Subject${id}" value="${subject}" placeholder="Subject" required/>
+          <label>Deadline:</label>
+          <input type="date" id="deadline${id}" value="${deadline}" />
+          <label>Status:</label>
+          <select id="Status${id}">
+            <option value="not-started" ${status === 'not-started' ? 'selected' : ''}>Not Started</option>
+            <option value="in-progress" ${status === 'in-progress' ? 'selected' : ''}>In Progress</option>
+            <option value="completed" ${status === 'completed' ? 'selected' : ''}>Completed</option>
+          </select>
+        </div>
+      </div>
+      <div class="add-btn-wrapper">
+        <input type="button" value="SAVE" onclick="add_content(${id})" />
+      </div>
+    `;
+    return taskDiv;
+  }
+
+  function add_content(id) {
+    const title = document.getElementById(`Title${id}`).value.trim();
+    const subject = document.getElementById(`Subject${id}`).value.trim();
+    const start = document.getElementById(`Starting_Date${id}`).value;
+    const deadline = document.getElementById(`deadline${id}`).value;
+    const priority = document.getElementById(`Priority${id}`).value;
+    const status = document.getElementById(`Status${id}`).value;
+
+    if (!title || !subject) {
+      alert("Please fill in both Title and Subject.");
+      return;
+    }
+
+    
+    const formDiv = document.getElementById(`task-form-${id}`);
+    formDiv.remove();
+
+    
+    const taskSection = document.getElementById('task-section');
+    const taskCard = document.createElement('div');
+    taskCard.className = 'task';
+
+    const color = priority === "important" ? "red" : "green";
+
+    taskCard.innerHTML = `
+      <div style="border-left: 8px solid ${color}; padding-left: 10px;">
+        <h3>${title}</h3>
+        <p><strong>Subject:</strong> ${subject}</p>
+        <p><strong>Start:</strong> ${start || 'N/A'}</p>
+        <p><strong>Deadline:</strong> ${deadline || 'N/A'}</p>
+        <p><strong>Priority:</strong> ${priority}</p>
+        <p><strong>Status:</strong> ${status}</p>
+      </div>
+    `;
+
+    taskSection.prepend(taskCard);
+  }
+
+  function clearFilters() {
+    document.getElementById("searchInput").value = "";
+    document.getElementById("statusFilter").value = "";
+    document.getElementById("priorityFilter").value = "";
+    filterTasks();
+  }
+
+  function filterTasks() {
+    const searchText = document.getElementById('searchInput').value.toLowerCase();
+    const statusFilter = document.getElementById('statusFilter').value;
+    const priorityFilter = document.getElementById('priorityFilter').value;
+    const tasks = document.querySelectorAll('#task-section .task');
+
+    tasks.forEach(task => {
+      const title = task.querySelector('h3')?.innerText.toLowerCase() || '';
+      const subject = task.querySelector('p strong')?.nextSibling?.textContent.toLowerCase() || '';
+      const statusText = task.innerText.toLowerCase();
+      const priorityText = task.innerText.toLowerCase();
+
+      
+      const matchesSearch = title.includes(searchText) || subject.includes(searchText);
+      const matchesStatus = statusFilter ? task.innerText.toLowerCase().includes(statusFilter) : true;
+      const matchesPriority = priorityFilter ? task.innerText.toLowerCase().includes(priorityFilter) : true;
+
+      
+      const isForm = task.id?.startsWith('task-form-');
+
+      if (isForm || (matchesSearch && matchesStatus && matchesPriority)) {
+        task.style.display = '';
+      } else {
+        task.style.display = 'none';
+      }
+    });
+  }
+
+</script>
+
+</body>
+</html>
+
