@@ -1,41 +1,36 @@
 <?php
 header('Content-Type: application/json');
-ini_set('display_errors', 0); // Keep this at 1 TEMPORARILY for now
+ini_set('display_errors', 0);
 error_reporting(E_ALL);
-
-session_start(); // Ensure session is started for user ID retrieval
-
-include 'db.php'; // Assumes db.php defines $pdo (renamed from db_config.php earlier)
-
-// Get the logged-in user's ID from the session
+session_start();
+include 'db.php';
 $loggedInUserId = $_SESSION['user_id'] ?? null;
 
-// --- IMPORTANT: Unauthorized access check ---
-// If no user is logged in, respond with unauthorized error
+
 if (!$loggedInUserId) {
-    http_response_code(401); // Unauthorized
+    http_response_code(401);
     echo json_encode(["success" => false, "error" => "Unauthorized access. Please log in."]);
     exit;
 }
 
-// Get the request method and input data
+
 $method = $_SERVER['REQUEST_METHOD'];
 $inputData = json_decode(file_get_contents('php://input'), true);
 
-// Main switch for HTTP method
+
 switch ($method) {
     case 'GET':
         $action = $_GET['action'] ?? '';
 
         if ($action === 'fetch_sessions') {
             try {
-                // Fetch sessions for the CURRENT logged-in user
+               
                 $sql = "SELECT id, task_name, task_subject, duration, duration_ms, notes, timestamp
                         FROM sessions
                         WHERE user_id = :user_id -- Filter by user_id
                         ORDER BY timestamp DESC LIMIT 10";
                 $stmt = $pdo->prepare($sql);
-                $stmt->bindParam(':user_id', $loggedInUserId, PDO::PARAM_INT); // Bind user ID
+                $stmt->bindParam(':user_id', $loggedInUserId, PDO::PARAM_INT); 
                 $stmt->execute();
                 $sessions = $stmt->fetchAll();
                 echo json_encode(["success" => true, "data" => $sessions]);
@@ -46,16 +41,16 @@ switch ($method) {
             break;
         }
 
-        // --- Existing GET logic for tasks (UPDATED for user_id) ---
+        
         $status = $_GET['status'] ?? '';
         $priority = $_GET['priority'] ?? '';
         $search = $_GET['search'] ?? '';
         $sort = $_GET['sort'] ?? '';
 
-        $sql = "SELECT id, title, subject, start_date, deadline, priority, status FROM tasks WHERE user_id = :user_id"; // Filter by user_id
-        $params = [':user_id' => $loggedInUserId]; // Add user_id to parameters
+        $sql = "SELECT id, title, subject, start_date, deadline, priority, status FROM tasks WHERE user_id = :user_id";
+        $params = [':user_id' => $loggedInUserId];
 
-        // Apply filters
+        
         if (!empty($status)) {
             $sql .= " AND status = :status";
             $params[':status'] = $status;
@@ -70,7 +65,7 @@ switch ($method) {
             $params[':search2'] = "%" . $search . "%";
         }
 
-        // Apply sorting
+        
         switch ($sort) {
             case 'start_date_asc': $sql .= " ORDER BY start_date ASC"; break;
             case 'start_date_desc': $sql .= " ORDER BY start_date DESC"; break;
@@ -102,7 +97,7 @@ switch ($method) {
                 $notes = $inputData['notes'] ?? '';
 
                 try {
-                    // Insert new session for the CURRENT logged-in user
+                    
                     $sql = "INSERT INTO sessions (task_name, task_subject, duration, duration_ms, notes, user_id)
                             VALUES (:task_name, :task_subject, :duration, :duration_ms, :notes, :user_id)";
                     $stmt = $pdo->prepare($sql);
@@ -112,7 +107,7 @@ switch ($method) {
                         ':duration' => $duration,
                         ':duration_ms' => $duration_ms,
                         ':notes' => $notes,
-                        ':user_id' => $loggedInUserId // Bind user ID
+                        ':user_id' => $loggedInUserId 
                     ]);
                     echo json_encode(["success" => true, "message" => "Session saved successfully!", "id" => $pdo->lastInsertId()]);
                 } catch (PDOException $e) {
@@ -123,7 +118,7 @@ switch ($method) {
                 echo json_encode(["success" => false, "error" => "Missing data for saving session."]);
             }
         } else {
-            // --- Existing task save/update logic (UPDATED for user_id) ---
+            
             if (!isset($inputData['title'], $inputData['subject'], $inputData['start_date'], $inputData['deadline'], $inputData['priority'], $inputData['status'])) {
                 echo json_encode(["success" => false, "error" => "Invalid input data provided for task."]);
                 exit;
@@ -133,9 +128,9 @@ switch ($method) {
 
             try {
                 if ($taskId) {
-                    // Update existing task for the CURRENT logged-in user
+                    
                     $sql = "UPDATE tasks SET title=:title, subject=:subject, start_date=:start_date, deadline=:deadline, priority=:priority, status=:status
-                            WHERE id=:id AND user_id=:user_id"; // Ensure user owns the task
+                            WHERE id=:id AND user_id=:user_id"; 
                     $stmt = $pdo->prepare($sql);
                     $stmt->execute([
                         ':title' => $inputData['title'],
@@ -145,16 +140,16 @@ switch ($method) {
                         ':priority' => $inputData['priority'],
                         ':status' => $inputData['status'],
                         ':id' => $taskId,
-                        ':user_id' => $loggedInUserId // Bind user ID
+                        ':user_id' => $loggedInUserId 
                     ]);
-                    // Check if any row was actually updated (rowCount will be 0 if task_id exists but user_id doesn't match)
+                    
                     if ($stmt->rowCount() > 0) {
                         echo json_encode(["success" => true, "message" => "Task updated successfully."]);
                     } else {
                         echo json_encode(["success" => false, "error" => "Task not found or not authorized."]);
                     }
                 } else {
-                    // Insert new task for the CURRENT logged-in user
+                    
                     $sql = "INSERT INTO tasks (title, subject, start_date, deadline, priority, status, user_id)
                             VALUES (:title, :subject, :start_date, :deadline, :priority, :status, :user_id)";
                     $stmt = $pdo->prepare($sql);
@@ -165,7 +160,7 @@ switch ($method) {
                         ':deadline' => $inputData['deadline'],
                         ':priority' => $inputData['priority'],
                         ':status' => $inputData['status'],
-                        ':user_id' => $loggedInUserId // Bind user ID
+                        ':user_id' => $loggedInUserId 
                     ]);
                     echo json_encode(["success" => true, "message" => "Task added successfully.", "id" => $pdo->lastInsertId()]);
                 }
@@ -187,12 +182,12 @@ switch ($method) {
             $sessionId = $inputData['id'];
 
             try {
-                // Delete session for the CURRENT logged-in user
-                $sql = "DELETE FROM sessions WHERE id=:id AND user_id=:user_id"; // Ensure user owns the session
+                
+                $sql = "DELETE FROM sessions WHERE id=:id AND user_id=:user_id";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
                     ':id' => $sessionId,
-                    ':user_id' => $loggedInUserId // Bind user ID
+                    ':user_id' => $loggedInUserId 
                 ]);
 
                 if ($stmt->rowCount() > 0) {
@@ -205,7 +200,7 @@ switch ($method) {
                 echo json_encode(["success" => false, "error" => "Failed to delete session. Internal server error."]);
             }
         } else {
-            // --- Existing task delete logic (UPDATED for user_id) ---
+            
             if (!isset($inputData['id']) || empty($inputData['id'])) {
                 echo json_encode(["success" => false, "error" => "Task ID not provided for deletion."]);
                 exit;
@@ -213,12 +208,12 @@ switch ($method) {
             $taskId = $inputData['id'];
 
             try {
-                // Delete task for the CURRENT logged-in user
-                $sql = "DELETE FROM tasks WHERE id=:id AND user_id=:user_id"; // Ensure user owns the task
+                
+                $sql = "DELETE FROM tasks WHERE id=:id AND user_id=:user_id"; 
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
                     ':id' => $taskId,
-                    ':user_id' => $loggedInUserId // Bind user ID
+                    ':user_id' => $loggedInUserId
                 ]);
 
                 if ($stmt->rowCount() > 0) {
