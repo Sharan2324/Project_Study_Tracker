@@ -1,9 +1,9 @@
 <?php
-session_start(); // Start the session to access $_SESSION
+session_start();
 
-// Check if user_id is set in the session
+
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php'); // Redirect to login page if not logged in
+    header('Location: login.php'); 
     exit();
 }
 ?>
@@ -18,22 +18,19 @@ if (!isset($_SESSION['user_id'])) {
 <body>
   <div class="calendar">
     <div class="header">
-      <!-- Buttons to navigate periods (month, week, day) -->
       <button onclick="changePeriod(-1)" aria-label="Previous Period">←</button>
-      <!-- Displays current month/year, week range, or day -->
       <div id="monthYear" class="month-year" role="heading" aria-live="polite"></div>
       <button onclick="changePeriod(1)" aria-label="Next Period">→</button>
     </div>
 
-    <!-- New: View Switcher Buttons -->
-    <div class="view-switcher">
+        <div class="view-switcher">
       <button onclick="setView('month')">Month</button>
       <button onclick="setView('week')">Week</button>
       <button onclick="setView('day')">Day</button>
       <button onclick="setView('agenda')">Agenda</button>
     </div>
 
-    <!-- Day headers for Month/Week views. Hidden for Day/Agenda views by JS -->
+    
     <div class="days" role="row" id="weekDaysHeader">
       <div role="columnheader">Sun</div>
       <div role="columnheader">Mon</div>
@@ -43,35 +40,31 @@ if (!isset($_SESSION['user_id'])) {
       <div role="columnheader">Fri</div>
       <div role="columnheader">Sat</div>
     </div>
-    <!-- This div will contain the actual calendar dates/views content -->
+    
     <div id="calendarDates" class="dates" role="grid"></div>
   </div>
 
-  <a href="homepage.php"><button type="button">Back</button></a> <!-- Updated link -->
+  <a href="homepage.php"><button type="button">Back</button></a> 
 
-  <!-- New: Task Details Popover -->
+  
   <div id="taskDetailsPopover" class="popover" role="dialog" aria-labelledby="popoverTitle">
     <div class="popover-content">
-      <!-- Close button for the popover -->
       <span class="close-popover" onclick="closePopover()">&times;</span>
-      <!-- Task details will be populated here by JavaScript -->
       <h4 id="popoverTitle"></h4>
       <p><strong>Subject:</strong> <span id="popoverSubject"></span></p>
       <p><strong>Start Date:</strong> <span id="popoverStartDate"></span></p>
       <p><strong>Deadline:</strong> <span id="popoverDeadline"></span></p>
       <p><strong>Priority:</strong> <span id="popoverPriority"></span></p>
       <p><strong>Status:</strong> <span id="popoverStatus"></span></p>
-      <!-- Button to switch to the edit modal -->
       <button onclick="openEditModalFromPopover()">Edit Task</button>
     </div>
   </div>
 
-  <!-- Existing Modal (for Add/Edit Task) -->
   <div id="eventModal" class="modal" role="dialog" aria-labelledby="modalTitle">
     <div class="modal-content">
       <h3 id="modalTitle">Add Task</h3>
       <form id="eventForm" onsubmit="return saveEvent()">
-        <!-- Hidden input to store task ID for editing -->
+        
         <input type="hidden" id="eventId" />
         <label for="eventTitle">Task Title:</label>
         <input type="text" id="eventTitle" placeholder="Task Title" required/>
@@ -105,7 +98,6 @@ if (!isset($_SESSION['user_id'])) {
     </div>
   </div>
 
-  <!-- Link to the main JavaScript file -->
-  <script src="calendar.js"></script>
+ <script src="calendar.js"></script>
 </body>
 </html>
