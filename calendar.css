@@ -1,4 +1,3 @@
-/* --- View Switcher Styles --- */
 .view-switcher {
     text-align: center;
     margin: 15px 0;
@@ -26,7 +25,6 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
-/* --- General Calendar Header & Day Names --- */
 .calendar .header {
     display: flex;
     justify-content: space-between;
@@ -74,21 +72,21 @@
     color: #555;
 }
 
-/* --- Month View Specifics (inherits from .calendar and .dates) --- */
+
 .dates {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 1px; /* Small gap between cells */
-    background-color: #ddd; /* Grid lines */
+    gap: 1px;
+    background-color: #ddd; 
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
-    overflow: hidden; /* Ensures rounded corners are applied */
+    overflow: hidden; 
 }
 
 .date-cell {
     background-color: #fff;
     padding: 10px;
-    min-height: 100px; /* Adjust as needed */
+    min-height: 100px;
     text-align: right;
     position: relative;
     cursor: pointer;
@@ -96,7 +94,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 5px; /* Space between date number and events */
+    gap: 5px; 
 }
 
 .date-cell:hover {
@@ -113,20 +111,19 @@
     justify-content: center;
     align-items: center;
     font-weight: bold;
-    margin-left: auto; /* Push to the right */
-    margin-bottom: 5px; /* Space from events */
+    margin-left: auto; 
+    margin-bottom: 5px;
 }
 
-/* General event styling (for month view) */
 .event {
-    background-color: #e6f2ff; /* Light blue default */
+    background-color: #e6f2ff;
     color: #0056b3;
     padding: 5px 8px;
     border-radius: 4px;
     margin-bottom: 3px;
     font-size: 0.8em;
-    width: 100%; /* Take full width of cell */
-    box-sizing: border-box; /* Include padding/border in width */
+    width: 100%;
+    box-sizing: border-box;
     text-align: left;
     cursor: pointer;
     overflow: hidden;
@@ -138,18 +135,18 @@
 }
 
 
-/* --- Week View Styles --- */
+
 .week-grid {
     display: grid;
-    grid-template-columns: 80px repeat(7, 1fr); /* Time column + 7 days */
+    grid-template-columns: 80px repeat(7, 1fr);
     border: 1px solid #ddd;
     font-size: 12px;
-    max-height: calc(100vh - 250px); /* Adjust based on header/footer */
-    overflow-y: auto; /* Scrollable if content exceeds height */
+    max-height: calc(100vh - 250px);
+    overflow-y: auto; 
 }
 
 .week-day-headers-with-time {
-    display: contents; /* Allows children to be placed directly in the main grid */
+    display: contents; 
 }
 
 .time-column-header, .week-day-header {
@@ -162,52 +159,49 @@
 }
 
 .time-column-header {
-    border-top-left-radius: 8px; /* Match calendar header */
+    border-top-left-radius: 8px; 
 }
 
 .week-day-header {
-    border-top-right-radius: 8px; /* Match calendar header, only for the last one */
+    border-top-right-radius: 8px;
 }
 
 .week-day-header.today-header {
-    background-color: #e0f7fa; /* Highlight today's header */
+    background-color: #e0f7fa;
     color: #007bff;
 }
 
 .week-hour-row {
-    display: contents; /* Children participate in parent grid */
+    display: contents;
 }
 
 .time-label {
-    grid-column: 1; /* Always in the first column */
+    grid-column: 1; 
     padding: 10px 5px;
     border-right: 1px solid #ddd;
-    border-bottom: 1px dashed #eee; /* Dashed line for hourly separation */
+    border-bottom: 1px dashed #eee;
     text-align: right;
     font-weight: bold;
     background-color: #f9f9f9;
-    position: sticky; /* Keep time labels visible when scrolling */
+    position: sticky;
     left: 0;
-    z-index: 5; /* Ensure it stays above events */
-}
+    z-index: 5; 
 
 .week-day-cell {
     padding: 5px;
     border-right: 1px solid #eee;
     border-bottom: 1px dashed #eee;
-    min-height: 50px; /* Adjust height for time slots */
+    min-height: 50px; 
     position: relative;
-    overflow-y: hidden; /* Hide overflow events for now */
-    cursor: pointer; /* To add new event */
+    overflow-y: hidden; 
+    cursor: pointer;
 }
 
 .week-day-cell:hover {
     background-color: #f5f5f5;
 }
-
-/* Styling for events within week view */
 .event-week {
-    background-color: #a7d9ff; /* Default event color */
+    background-color: #a7d9ff;
     color: #333;
     padding: 2px 5px;
     border-radius: 3px;
@@ -224,18 +218,17 @@
 }
 
 
-/* --- Day View Styles --- */
 .day-view-grid {
     display: grid;
-    grid-template-columns: 80px 1fr; /* Time column and event column */
+    grid-template-columns: 80px 1fr; 
     border: 1px solid #ddd;
     font-size: 14px;
-    max-height: calc(100vh - 250px); /* Adjust height for scroll */
+    max-height: calc(100vh - 250px);
     overflow-y: auto;
 }
 
 .day-view-date {
-    grid-column: 1 / -1; /* Span across both columns */
+    grid-column: 1 / -1;
     text-align: center;
     padding: 10px;
     background-color: #f0f0f0;
@@ -247,7 +240,7 @@
 }
 
 .day-hour-row {
-    display: contents; /* Children participate in parent grid */
+    display: contents;
 }
 
 .day-hour-label {
@@ -267,18 +260,17 @@
     grid-column: 2;
     padding: 5px;
     border-bottom: 1px dashed #eee;
-    min-height: 50px; /* Adjust height for time slots */
+    min-height: 50px;
     position: relative;
-    cursor: pointer; /* To add new event */
+    cursor: pointer;
 }
 
 .day-events-container:hover {
     background-color: #f5f5f5;
 }
 
-/* Styling for events within day view */
 .event-day {
-    background-color: #d1ecf1; /* Default event color */
+    background-color: #d1ecf1; 
     color: #0c5460;
     padding: 5px 8px;
     border-radius: 4px;
@@ -294,11 +286,9 @@
     filter: brightness(0.95);
 }
 
-
-/* --- Agenda View Styles --- */
 .agenda-list {
     padding: 20px;
-    max-height: calc(100vh - 200px); /* Adjust height for scroll */
+    max-height: calc(100vh - 200px);
     overflow-y: auto;
     background-color: #fdfdfd;
     border-bottom-left-radius: 8px;
@@ -331,20 +321,19 @@
     box-shadow: 0 5px 12px rgba(0,0,0,0.12);
 }
 
-/* --- Task Details Popover Styles --- */
 .popover {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 100; /* Sit on top, below main modal */
+  display: none; 
+  position: fixed;
+  z-index: 100;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  animation: fadeIn 0.3s forwards; /* Smooth fade-in */
+  width: 100%; 
+  height: 100%; 
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center; 
+  animation: fadeIn 0.3s forwards;
 }
 
 .popover-content {
@@ -352,14 +341,13 @@
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3);
-  width: 90%; /* Responsive width */
-  max-width: 450px; /* Max width on larger screens */
-  position: relative; /* For close button positioning */
-  animation-name: slideInTop; /* Animation for popover content */
+  width: 90%; 
+  max-width: 450px; 
+  position: relative; 
+  animation-name: slideInTop; 
   animation-duration: 0.4s;
 }
 
-/* Close button for popover */
 .close-popover {
   color: #aaa;
   font-size: 32px;
@@ -394,7 +382,7 @@
 }
 
 .popover-content button {
-    background-color: #28a745; /* Green for Edit button */
+    background-color: #28a745;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -409,18 +397,16 @@
 .popover-content button:hover {
     background-color: #218838;
 }
-
-/* --- Modal Styles (ensure consistency, z-index) --- */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 200; /* Sit on top, above popover */
+  display: none;
+  position: fixed;
+  z-index: 200;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+  width: 100%;
+  height: 100%; 
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
   justify-content: center;
   align-items: center;
   animation: fadeIn 0.3s forwards;
@@ -479,14 +465,14 @@
 }
 
 .modal-content button#deleteBtn {
-  background-color: #dc3545; /* Red for delete */
+  background-color: #dc3545;
 }
 
 .modal-content button#deleteBtn:hover {
   background-color: #c82333;
 }
 
-.modal-content button:last-child { /* Cancel button */
+.modal-content button:last-child { 
   background-color: #6c757d;
 }
 
@@ -494,21 +480,18 @@
   background-color: #5a6268;
 }
 
-/* --- Priority Colors --- */
-/* These classes will be applied to .event, .event-week, .event-day, .agenda-item */
 .important {
-    background-color: #ffe0e6; /* Light red */
-    border-left: 5px solid #e74c3c; /* Stronger red border */
+    background-color: #ffe0e6;
+    border-left: 5px solid #e74c3c;
     color: #a70000;
 }
 
 .not-important {
-    background-color: #e6ffe6; /* Light green */
-    border-left: 5px solid #2ecc71; /* Stronger green border */
+    background-color: #e6ffe6;
+    border-left: 5px solid #2ecc71;
     color: #007f00;
 }
 
-/* --- Animations --- */
 @keyframes fadeIn {
   from {opacity: 0;}
   to {opacity: 1;}
