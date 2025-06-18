@@ -1,4 +1,4 @@
-/* auth.css */
+
 
 * {
   margin: 0;
@@ -22,23 +22,23 @@ body {
   text-align: center;
   color: white;
   width: 300px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.4); /* Enhanced shadow */
+  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
 }
 
 .login-container h2 {
   margin-bottom: 30px;
-  font-size: 24px; /* Slightly larger font */
-  font-family: 'Orbitron', sans-serif; /* Remember to import Orbitron if not a local font */
-  color: #E3E8EA; /* Lighter color for heading */
+  font-size: 24px;
+  font-family: 'Orbitron', sans-serif;
+  color: #E3E8EA;
 }
 
 input[type="email"],
 input[type="password"] {
   width: 100%;
-  padding: 12px; /* Slightly more padding */
-  margin: 12px 0; /* Slightly more margin */
+  padding: 12px;
+  margin: 12px 0;
   border: none;
-  border-radius: 25px; /* More rounded */
+  border-radius: 25px;
   background-color: #e5eaec;
   color: #333;
   font-size: 1em;
@@ -50,29 +50,29 @@ input[type="password"]::placeholder {
 }
 
 button {
-  margin-top: 20px; /* More margin */
-  padding: 12px 35px; /* More padding */
+  margin-top: 20px;
+  padding: 12px 35px; 
   border: none;
-  border-radius: 25px; /* More rounded */
+  border-radius: 25px;
   background-color: #aab3b7;
   cursor: pointer;
   font-weight: bold;
-  font-size: 1.1em; /* Slightly larger font */
-  color: #333; /* Darker text for contrast */
+  font-size: 1.1em;
+  color: #333;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
   background-color: #c4ccd0;
-  transform: translateY(-2px); /* Slight lift effect */
+  transform: translateY(-2px);
 }
 
 .message {
-  margin-top: 20px; /* More margin */
+  margin-top: 20px; 
   font-size: 15px;
   font-weight: bold;
-  color: #ff8888; /* Error color */
-  background-color: rgba(255, 0, 0, 0.1); /* Light red background for messages */
+  color: #ff8888;
+  background-color: rgba(255, 0, 0, 0.1); 
   padding: 8px 15px;
   border-radius: 5px;
 }
